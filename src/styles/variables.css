@@ -1,0 +1,7 @@
+:root {
+    --background: #000000;
+    --on-surface: #ffffff;
+    --primary: #ff0000;
+    --border-radius: 8px;
+    --transition: 200ms ease;
+}

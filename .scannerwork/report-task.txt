@@ -1,7 +1,0 @@
-organization=aymericm-pro
-projectKey=aymericM-pro_movie-app-frontend
-serverUrl=https://sonarcloud.io
-serverVersion=8.0.0.79712
-dashboardUrl=https://sonarcloud.io/dashboard?id=aymericM-pro_movie-app-frontend
-ceTaskId=AZw4j4eJx_496eDRdz-Q
-ceTaskUrl=https://sonarcloud.io/api/ce/task?id=AZw4j4eJx_496eDRdz-Q

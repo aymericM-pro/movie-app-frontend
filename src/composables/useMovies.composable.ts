@@ -65,5 +65,6 @@ export function useMovies() {
         totalPages,
         loadMovies,
         loadPopularForHero,
+        getPopularMovies,
     };
 }

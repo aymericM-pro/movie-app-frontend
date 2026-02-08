@@ -1,10 +1,10 @@
 <script lang="ts" setup>
 import { onMounted, ref } from 'vue';
 import { useI18n } from 'vue-i18n';
-import { tmdbService } from '@/services/useMoviesApi.composable.ts';
 import type { Movie } from '@/types/movie.types';
 import { useNavigation } from '@/composables/navigation.composable.ts';
 import { AppRoute } from '@/router';
+import { getHeroImageUrl } from '@/core/utils/image.utils.ts';
 
 const { t } = useI18n();
 const { goToWithParams } = useNavigation();
@@ -13,6 +13,7 @@ const props = defineProps<{
     titleKey: string;
 }>();
 
+// const { getTrendingToday } = useMovies();
 const trendingMovies = ref<Movie[]>([]);
 const loading = ref(false);
 const error = ref<string | null>(null);
@@ -22,8 +23,8 @@ const loadTrending = async () => {
     error.value = null;
 
     try {
-        const response = await tmdbService.getTrendingToday();
-        trendingMovies.value = response.results.slice(0, 10);
+        // const response = await tmdbService.getTrendingToday();
+        // const response = await getTrendingToday();
     } catch {
         error.value = t('common.loading');
     } finally {
@@ -71,12 +72,7 @@ onMounted(loadTrending);
                         <!-- POSTER -->
                         <img
                             :alt="movie.title"
-                            :src="
-                                tmdbService.getImageUrl(
-                                    movie.poster_path,
-                                    'w342',
-                                )
-                            "
+                            :src="getHeroImageUrl(movie.poster_path, 'w342')"
                             class="rounded-xl transition-transform duration-300 ease-out group-hover:scale-[1.04]"
                         />w
 
@@ -84,7 +80,7 @@ onMounted(loadTrending);
                         <div
                             class="mt-2 text-center text-sm text-white/90 line-clamp-2"
                         >
-                            {{ movie.title || movie.name }}
+                            {{ movie.title }}
                         </div>
 
                         <!-- MEDIA TYPE -->

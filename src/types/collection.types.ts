@@ -88,6 +88,7 @@ export interface TMDBImage {
 export interface TMDBImagesResponse {
     backdrops: TMDBImage[];
     posters: TMDBImage[];
+    logos?: TMDBImage[];
 }
 
 export interface TMDBMovieCredits {
@@ -127,6 +128,13 @@ export interface TMDBMovieDetails {
     release_date: string;
     vote_average: number;
     credits?: TMDBMovieCredits;
+    budget: number;
+    revenue: number;
+    status: string;
+    genres: Genre[];
+    production_companies: ProductionCompany[];
+    production_countries: ProductionCountry[];
+    spoken_languages: SpokenLanguage[];
 }
 
 export interface TMDBCollectionSearchResponse {

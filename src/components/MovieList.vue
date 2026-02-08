@@ -3,8 +3,8 @@ import { onMounted, ref } from 'vue';
 import { useI18n } from 'vue-i18n';
 import GenericList from '@/components/GenericList.vue';
 import MovieCard from '@/components/MovieCard.vue';
-import { tmdbService } from '@/services/useMoviesApi.composable.ts';
 import type { Movie } from '@/types/movie.types';
+import { useMovies } from '@/composables/useMovies.composable.ts';
 
 const { t } = useI18n();
 
@@ -12,12 +12,14 @@ const movies = ref<Movie[]>([]);
 const loading = ref(false);
 const error = ref<string | null>(null);
 
+const { getPopularMovies } = useMovies();
+
 const loadMovies = async () => {
     loading.value = true;
     error.value = null;
 
     try {
-        const response = await tmdbService.getPopularMovies();
+        const response = await getPopularMovies();
         movies.value = response.results;
     } catch (err) {
         error.value = err instanceof Error ? err.message : t('common.loading'); // fallback safe

@@ -22,6 +22,21 @@ type RegisterForm = {
     newsletter?: boolean;
 };
 
+export function useAuthForm(mode: 'login'): {
+    form: LoginForm;
+    errors: Record<string, string>;
+    touched: Record<string, boolean>;
+    onBlur: (field: keyof LoginForm) => void;
+    submit: () => Promise<void>;
+};
+
+export function useAuthForm(mode: 'register'): {
+    form: RegisterForm;
+    errors: Record<string, string>;
+    touched: Record<string, boolean>;
+    onBlur: (field: keyof RegisterForm) => void;
+    submit: () => Promise<void>;
+};
 export function useAuthForm(mode: Mode) {
     const { t } = useI18n();
     const authStore = useAuthStore();
@@ -72,17 +87,22 @@ export function useAuthForm(mode: Mode) {
             goTo(AppRoute.HOME);
         };
 
-        return { form, errors, touched, onBlur, submit };
+        return {
+            form,
+            errors,
+            touched,
+            onBlur: onBlur as (field: keyof LoginForm) => void,
+            submit,
+        };
     }
 
-    // REGISTER
     const { form, errors, touched, onBlur, validateAll } =
         useZodForm<RegisterForm>(registerSchema, {
             email: '',
             username: '',
             password: '',
             confirmPassword: '',
-            acceptTerms: false as true,
+            acceptTerms: false,
             newsletter: false,
         });
 
@@ -99,5 +119,11 @@ export function useAuthForm(mode: Mode) {
         goTo(AppRoute.HOME);
     };
 
-    return { form, errors, touched, onBlur, submit };
+    return {
+        form,
+        errors,
+        touched,
+        onBlur: onBlur as (field: keyof RegisterForm) => void,
+        submit,
+    };
 }

@@ -29,7 +29,6 @@ const movies = computed(() => store.getByCategory(activeTab.value));
 
 <template>
     <section class="mx-auto max-w-[1400px] px-6 py-12 text-white">
-        <!-- HEADER -->
         <header class="mb-10 space-y-4">
             <h1 class="text-3xl font-semibold">
                 {{ t('common.library') }}
@@ -48,7 +47,6 @@ const movies = computed(() => store.getByCategory(activeTab.value));
             </msTabs>
         </header>
 
-        <!-- CONTENT -->
         <div v-if="movies.length === 0" class="py-20 text-center text-white/50">
             {{ t('library.empty') }}
         </div>

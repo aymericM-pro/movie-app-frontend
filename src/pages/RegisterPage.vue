@@ -38,7 +38,7 @@ const { form, errors, touched, onBlur, submit } = useAuthForm('register');
 
             <!-- USERNAME -->
             <div class="space-y-1">
-                <ms-input
+                <msInput
                     v-model="form.username"
                     :placeholder="t('auth.username')"
                     @blur="onBlur('username')"

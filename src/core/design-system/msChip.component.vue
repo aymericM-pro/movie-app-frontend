@@ -44,10 +44,10 @@ const isActive = (value: string | number) => props.modelValue.includes(value);
             v-for="opt in options"
             :key="opt.value"
             :class="[
-                'rounded-full px-4 py-1.5 text-sm transition border',
+                'rounded-full px-4 py-1.5 text-sm transition border cursor-pointer text-white',
                 isActive(opt.value)
-                    ? 'bg-[var(--primary)] text-black border-[var(--primary)]'
-                    : 'border-white/30 text-white hover:border-white',
+                    ? 'bg-[var(--primary)] border-[var(--primary)]'
+                    : 'border-white/30 hover:border-white',
             ]"
             type="button"
             @click="toggle(opt.value)"

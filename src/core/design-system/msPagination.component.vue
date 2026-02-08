@@ -8,7 +8,7 @@ const props = withDefaults(
         totalPages: number;
         range?: number;
     }>(),
-    { range: 1 }, // moins de boutons au centre
+    { range: 1 },
 );
 
 const emit = defineEmits<{
@@ -89,15 +89,18 @@ const go = (p: number) => {
 
 <style scoped>
 .pagination-btn {
-    background-color: #2f3542; /* gris foncé opaque */
+    background-color: #2f3542;
     color: #ffffff;
     padding: 0.5rem 0.9rem;
     border-radius: 0.6rem;
     font-weight: 500;
+    cursor: pointer;
+    transition: background-color 0.15s ease;
 }
 
-.pagination-btn:hover {
+.pagination-btn:not(.pagination-active):hover {
     background-color: #3b4150;
+    transform: translateY(-1px);
 }
 
 .pagination-btn:disabled {
@@ -106,6 +109,6 @@ const go = (p: number) => {
 }
 
 .pagination-active {
-    background-color: #e50914; /* rouge TMDB / Netflix-like */
+    background-color: #e50914;
 }
 </style>

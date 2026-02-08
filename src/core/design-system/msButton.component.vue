@@ -18,18 +18,9 @@ const props = withDefaults(
     },
 );
 
-/**
- * Base styles
- * - pas de focus ring
- * - pas d’outline
- * - transition simple
- */
 const baseClasses =
     'inline-flex items-center justify-center gap-2 font-semibold rounded-md transition focus:outline-none';
 
-/**
- * Variants
- */
 const variantClasses = computed(() => {
     switch (props.variant) {
         case 'secondary':
@@ -41,9 +32,6 @@ const variantClasses = computed(() => {
     }
 });
 
-/**
- * Sizes
- */
 const sizeClasses = computed(() => {
     switch (props.size) {
         case 'sm':

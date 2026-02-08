@@ -1,25 +1,33 @@
-import { computed, onMounted, onUnmounted, ref } from 'vue';
+import { computed, onMounted, ref } from 'vue';
 import { useMovies } from '@/composables/useMovies.composable';
 
-export function useHeroCarousel(limit = 5, autoplayDelay = 6000) {
+export function useHeroCarousel(limit = 5) {
     const { movies, loading, loadPopularForHero } = useMovies();
 
     const currentIndex = ref(0);
     const direction = ref<'left' | 'right'>('right');
-    const autoPlayInterval = ref<number | null>(null);
+
+    const dragStartX = ref<number | null>(null);
+    const dragThreshold = 60;
 
     const currentMovie = computed(
         () => movies.value[currentIndex.value] ?? null,
     );
 
     const next = () => {
-        if (!movies.value.length) return;
+        if (!movies.value.length) {
+            return;
+        }
+        
         direction.value = 'right';
         currentIndex.value = (currentIndex.value + 1) % movies.value.length;
     };
 
     const prev = () => {
-        if (!movies.value.length) return;
+        if (!movies.value.length) {
+            return;
+        }
+
         direction.value = 'left';
         currentIndex.value =
             currentIndex.value === 0
@@ -27,33 +35,34 @@ export function useHeroCarousel(limit = 5, autoplayDelay = 6000) {
                 : currentIndex.value - 1;
     };
 
-    const startAutoplay = () => {
-        stopAutoplay();
-        autoPlayInterval.value = window.setInterval(next, autoplayDelay);
+    const onPointerDown = (e: PointerEvent) => {
+        dragStartX.value = e.clientX;
     };
 
-    const stopAutoplay = () => {
-        if (autoPlayInterval.value) {
-            clearInterval(autoPlayInterval.value);
-            autoPlayInterval.value = null;
+    const onPointerUp = (e: PointerEvent) => {
+        if (dragStartX.value === null) {
+            return;
         }
+
+        const deltaX = e.clientX - dragStartX.value;
+        dragStartX.value = null;
+
+        if (Math.abs(deltaX) < dragThreshold) {
+            return;
+        }
+
+        deltaX < 0 ? next() : prev();
     };
 
     onMounted(async () => {
         await loadPopularForHero(limit);
-        if (movies.value.length) startAutoplay();
     });
-
-    onUnmounted(stopAutoplay);
 
     return {
         currentMovie,
         loading,
         direction,
-
-        next,
-        prev,
-        startAutoplay,
-        stopAutoplay,
+        onPointerDown,
+        onPointerUp,
     };
 }

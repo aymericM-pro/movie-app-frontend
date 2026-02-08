@@ -37,7 +37,13 @@ export function useMoviePage() {
         await refreshMovies();
     });
 
-    watch(page, refreshMovies);
+    watch(
+        () => route.query.query,
+        async () => {
+            page.value = 1;
+            await refreshMovies();
+        },
+    );
 
     return {
         page,

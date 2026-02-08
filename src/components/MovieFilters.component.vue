@@ -3,6 +3,7 @@ import { ref, watch } from 'vue';
 import msDropdown from '@/core/design-system/msDropdown.component.vue';
 import msChip from '@/core/design-system/msChip.component.vue';
 import msRangeSlider from '@/core/design-system/msRangeSlider.component.vue';
+import msButton from '@/core/design-system/msButton.component.vue';
 
 export type MovieFilters = {
     sort: string;
@@ -41,20 +42,17 @@ const apply = () => {
 
 <template>
     <aside class="rounded-xl bg-neutral-900 p-6 space-y-6">
-        <!-- SORT -->
         <msDropdown
             v-model="filters.sort"
             :options="sortOptions"
             placeholder="Trier par"
         />
 
-        <!-- GENRES -->
         <div>
             <h3 class="mb-3 text-sm font-semibold">Genres</h3>
             <msChip v-model="filters.genres" :options="genreOptions" />
         </div>
 
-        <!-- RATING -->
         <msRangeSlider
             v-model="filters.ratingRange"
             :max="10"
@@ -63,7 +61,6 @@ const apply = () => {
             label="Score d’évaluation"
         />
 
-        <!-- VOTES -->
         <msRangeSlider
             v-model="filters.voteCountMin"
             :max="500"
@@ -73,7 +70,6 @@ const apply = () => {
             mode="single"
         />
 
-        <!-- RUNTIME -->
         <msRangeSlider
             v-model="filters.runtimeRange"
             :max="360"
@@ -82,13 +78,12 @@ const apply = () => {
             label="Durée (minutes)"
         />
 
-        <!-- ACTION -->
-        <button
-            class="w-full rounded-full bg-white/10 py-3 font-semibold transition hover:bg-white hover:text-black"
-            type="button"
+        <msButton
+            class="w-full"
+            label="Rechercher"
+            size="lg"
+            variant="secondary"
             @click="apply"
-        >
-            Rechercher
-        </button>
+        />
     </aside>
 </template>

@@ -1,24 +1,29 @@
 <script lang="ts" setup>
 import MsButton from '@/core/design-system/msButton.component.vue';
 import { useHeroCarousel } from '@/composables/useHeroCarousel.composable';
-import { getHeroImageUrl } from '@/core/utils/image.utils.ts';
+import { getHeroImageUrl } from '@/core/utils/image.utils';
+import { useNavigation } from '@/composables/navigation.composable';
+import { AppRoute } from '@/router';
 
-const {
-    currentMovie,
-    loading,
-    direction,
-    next,
-    prev,
-    startAutoplay,
-    stopAutoplay,
-} = useHeroCarousel(5, 6000);
+const { goToWithParams } = useNavigation();
+
+const { currentMovie, loading, direction, onPointerDown, onPointerUp } =
+    useHeroCarousel(5);
+
+const goToDetails = () => {
+    if (!currentMovie.value) return;
+
+    goToWithParams(AppRoute.MOVIE_DETAIL, {
+        id: currentMovie.value.id,
+    });
+};
 </script>
 
 <template>
     <section
-        class="relative h-screen w-full overflow-hidden"
-        @mouseenter="stopAutoplay"
-        @mouseleave="startAutoplay"
+        class="relative h-screen w-full overflow-hidden cursor-grab active:cursor-grabbing"
+        @pointerdown="onPointerDown"
+        @pointerup="onPointerUp"
     >
         <!-- LOADING -->
         <div
@@ -49,7 +54,7 @@ const {
                                 currentMovie.poster_path,
                                 currentMovie.backdrop_path,
                                 'w1280',
-                            )}) `,
+                            )})`,
                     }"
                     class="absolute inset-0 flex items-center bg-cover bg-center"
                 >
@@ -91,29 +96,13 @@ const {
                                 <MsButton
                                     label="Plus d'infos"
                                     variant="secondary"
+                                    @click="goToDetails"
                                 />
                             </div>
                         </div>
                     </div>
                 </div>
             </Transition>
-
-            <!-- CONTROLS -->
-            <button
-                aria-label="Previous"
-                class="absolute left-6 top-1/2 -translate-y-1/2 text-white/80 hover:text-white text-5xl z-10"
-                @click="prev"
-            >
-                ‹
-            </button>
-
-            <button
-                aria-label="Next"
-                class="absolute right-6 top-1/2 -translate-y-1/2 text-white/80 hover:text-white text-5xl z-10"
-                @click="next"
-            >
-                ›
-            </button>
         </div>
     </section>
 </template>

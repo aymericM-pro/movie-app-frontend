@@ -11,6 +11,7 @@ import { ApiClient } from '@/services/baseServiceApi';
 
 export type DiscoverMoviesParams = {
     genres?: number[];
+    companies?: number[];
     voteAverageMin?: number;
     voteAverageMax?: number;
     voteCountMin?: number;
@@ -19,6 +20,8 @@ export type DiscoverMoviesParams = {
     sortBy?: string;
     page?: number;
 };
+
+type CatalogSourceType = 'PROVIDER' | 'STUDIO';
 
 export function useMoviesApi() {
     const api = new ApiClient();
@@ -56,11 +59,6 @@ export function useMoviesApi() {
             api.request('/tmdb/movies/top-rated', { page }),
         );
 
-    const getNowPlayingMovies = (page = 1) =>
-        call<MoviesResponse>(() =>
-            api.request('/tmdb/movies/platform/NOW_PLAYING', { page }),
-        );
-
     const getNewReleases = (page = 1) =>
         call<MoviesResponse>(() =>
             api.request('/tmdb/movies/trending/MOVIE', {
@@ -69,20 +67,28 @@ export function useMoviesApi() {
             }),
         );
 
+    const getMoviesByCatalogSource = (
+        type: CatalogSourceType,
+        sourceId: number,
+        page = 1,
+    ) =>
+        call<MoviesResponse>(() =>
+            api.request('/tmdb/movies/catalog', {
+                type,
+                sourceId,
+                page,
+            }),
+        );
     const searchMovies = (query: string, page = 1) =>
         call<MoviesResponse>(() =>
             api.request('/tmdb/movies/search', { query, page }),
-        );
-
-    const getMoviesByGenre = (genre: number, page = 1) =>
-        call<MoviesResponse>(() =>
-            api.request(`/tmdb/movies/genre/${genre}`, { page }),
         );
 
     const discoverMovies = (params: DiscoverMoviesParams) =>
         call<MoviesResponse>(() =>
             api.request('/tmdb/movies/discover', {
                 genres: params.genres?.join(','),
+                with_companies: params.companies?.join(','),
                 voteAverageMin: params.voteAverageMin,
                 voteAverageMax: params.voteAverageMax,
                 voteCountMin: params.voteCountMin,
@@ -119,16 +125,22 @@ export function useMoviesApi() {
             api.request(`/tmdb/movies/collections/${collectionId}/details`),
         );
 
+    const getMoviesByGenre = (genreId: number, page = 1) =>
+        call<MoviesResponse>(() =>
+            api.request(`/tmdb/movies/genre/${genreId}`, {
+                page,
+            }),
+        );
+
     return {
         loading,
         error,
         getPopularMovies,
         getTrendingToday,
         getTopRatedMovies,
-        getNowPlayingMovies,
         getNewReleases,
+        getMoviesByCatalogSource,
         searchMovies,
-        getMoviesByGenre,
         discoverMovies,
         getMovieDetails,
         getMovieFull,
@@ -136,5 +148,6 @@ export function useMoviesApi() {
         getMovieImages,
         getSimilarMovies,
         getCollectionDetails,
+        getMoviesByGenre,
     };
 }

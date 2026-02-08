@@ -1,8 +1,14 @@
 import { defineStore } from 'pinia';
 
+interface AuthUser {
+    email: string;
+    username?: string;
+}
+
 interface AuthState {
     isAuthenticated: boolean;
-    userName?: string;
+    user: AuthUser | null;
+    token: string | null;
 }
 
 const STORAGE_KEY = 'auth';
@@ -12,18 +18,51 @@ export const useAuthStore = defineStore('auth', {
         const raw = localStorage.getItem(STORAGE_KEY);
         return raw
             ? JSON.parse(raw)
-            : { isAuthenticated: false, userName: undefined };
+            : {
+                  isAuthenticated: false,
+                  user: null,
+                  token: null,
+              };
     },
 
     actions: {
-        login(userName: string) {
+        async login(payload: {
+            email: string;
+            password: string;
+            rememberMe?: boolean;
+        }) {
             this.isAuthenticated = true;
-            this.userName = userName;
+            this.user = {
+                email: payload.email,
+            };
+
+            if (payload.rememberMe !== false) {
+                localStorage.setItem(STORAGE_KEY, JSON.stringify(this.$state));
+            }
+        },
+
+        async register(payload: {
+            email: string;
+            username: string;
+            password: string;
+            newsletter?: boolean;
+        }) {
+            const fakeToken = 'fake-jwt-token';
+
+            this.isAuthenticated = true;
+            this.user = {
+                email: payload.email,
+                username: payload.username,
+            };
+            this.token = fakeToken;
+
             localStorage.setItem(STORAGE_KEY, JSON.stringify(this.$state));
         },
+
         logout() {
             this.isAuthenticated = false;
-            this.userName = undefined;
+            this.user = null;
+            this.token = null;
             localStorage.removeItem(STORAGE_KEY);
         },
     },

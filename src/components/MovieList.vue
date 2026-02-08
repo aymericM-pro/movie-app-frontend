@@ -1,34 +1,20 @@
 <script lang="ts" setup>
-import { onMounted, ref } from 'vue';
+import { onMounted } from 'vue';
 import { useI18n } from 'vue-i18n';
 import GenericList from '@/components/GenericList.vue';
 import MovieCard from '@/components/MovieCard.vue';
-import type { Movie } from '@/types/movie.types';
-import { useMovies } from '@/composables/useMovies.composable.ts';
+import { useMovies } from '@/composables/useMovies.composable';
 
 const { t } = useI18n();
 
-const movies = ref<Movie[]>([]);
-const loading = ref(false);
-const error = ref<string | null>(null);
+const { movies, loading, loadMovies } = useMovies();
 
-const { getPopularMovies } = useMovies();
-
-const loadMovies = async () => {
-    loading.value = true;
-    error.value = null;
-
-    try {
-        const response = await getPopularMovies();
-        movies.value = response.results;
-    } catch (err) {
-        error.value = err instanceof Error ? err.message : t('common.loading'); // fallback safe
-    } finally {
-        loading.value = false;
-    }
-};
-
-onMounted(loadMovies);
+onMounted(() => {
+    loadMovies({
+        page: 1,
+        hasActiveFilters: false,
+    });
+});
 </script>
 
 <template>
@@ -48,7 +34,7 @@ onMounted(loadMovies);
 
         <!-- LIST -->
         <div class="mx-auto max-w-[1400px] px-6 pb-20">
-            <GenericList :error="error" :items="movies" :loading="loading">
+            <GenericList :items="movies" :loading="loading">
                 <template #item="{ item }">
                     <MovieCard :movie="item" />
                 </template>

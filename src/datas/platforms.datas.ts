@@ -20,7 +20,7 @@ const platforms = ref<CatalogSource[]>([
         type: 'provider',
         id: 531,
         name: 'Paramount+',
-        logo: 'https://u.cubeupload.com/mystic/c40fe782c450e170eea6.png',
+        logo: 'https://u.cubeupload.com/mystic/35734306149c1a6eb0a9.png',
         count: 502,
     },
     {
@@ -34,7 +34,7 @@ const platforms = ref<CatalogSource[]>([
         type: 'provider',
         id: 350,
         name: 'Apple TV+',
-        logo: 'https://upload.wikimedia.org/wikipedia/commons/f/fa/Apple_TV_Plus_logo.svg',
+        logo: 'https://u.cubeupload.com/mystic/b2fb6956993e2ee5b4e3.png',
         count: 138,
     },
     {
@@ -48,7 +48,7 @@ const platforms = ref<CatalogSource[]>([
         type: 'studio',
         id: 420,
         name: 'Marvel Studios',
-        logo: 'https://upload.wikimedia.org/wikipedia/commons/0/04/MarvelLogo.svg',
+        logo: 'https://u.cubeupload.com/mystic/hUzeosd33nzE5MCNsZxC.png',
         count: 65,
     },
     {

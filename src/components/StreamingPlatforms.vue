@@ -1,6 +1,6 @@
 <script lang="ts" setup>
 import type { CatalogSource } from '@/types/platform.types';
-import { useNavigation } from '@/composables/navigation.composable.ts';
+import { useNavigation } from '@/composables/navigation.composable';
 import { useI18n } from 'vue-i18n';
 import { AppRoute } from '@/router';
 import platforms from '@/datas/platforms.datas';

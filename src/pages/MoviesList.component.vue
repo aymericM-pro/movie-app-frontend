@@ -6,7 +6,7 @@ import { AppRoute } from '@/router';
 import { useMoviePage } from '@/composables/useMoviePage.composable';
 import MovieCard from '@/components/MovieCard.vue';
 import MovieFilters from '@/components/MovieFilters.component.vue';
-import SearchAndViewToggle from '@/components/DisplayListMode.component.vue';
+import displayListMode from '@/components/DisplayListMode.component.vue';
 import msPagination from '@/core/design-system/msPagination.component.vue';
 
 const { t } = useI18n();
@@ -68,7 +68,7 @@ const goToPage = (p: number) => {
         <div class="mb-12 flex flex-col justify-between gap-8">
             <h1 class="text-3xl text-center font-semibold">{{ title }}</h1>
 
-            <SearchAndViewToggle
+            <displayListMode
                 v-model="searchQuery"
                 :placeholder="t('common.movies') + '…'"
                 :view-mode="viewMode"

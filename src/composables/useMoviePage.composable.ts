@@ -2,14 +2,15 @@ import { onMounted, ref, watch } from 'vue';
 import { useRoute } from 'vue-router';
 import { useMovies } from '@/composables/useMovies.composable';
 import { useMovieFilters } from '@/composables/useMovieFilters.composable';
-import { useGendersApi } from '@/services/gender-api.service.ts';
+import { useGendersApi } from '@/services/gender-api.service';
 
 export function useMoviePage() {
     const route = useRoute();
     const genderService = useGendersApi();
+
     const page = ref(Number(route.query.page) || 1);
     const viewMode = ref<'cards' | 'list'>('cards');
-    const searchQuery = ref('');
+    const searchQuery = ref((route.query.query as string) || '');
 
     const genreOptions = ref<{ label: string; value: number }[]>([]);
 
@@ -24,13 +25,26 @@ export function useMoviePage() {
         }));
     };
 
-    const refreshMovies = () =>
-        loadMovies({
+    const refreshMovies = async () => {
+        const provider = route.query.provider as string | undefined;
+
+        const studio = route.query.studio
+            ? Number(route.query.studio)
+            : undefined;
+
+        const genre = route.query.genre ? Number(route.query.genre) : undefined;
+
+        await loadMovies({
             page: page.value,
             query: route.query.query as string | undefined,
+            provider,
+            studio,
+            genre,
             filters: filters.value,
-            hasActiveFilters: hasActiveFilters.value,
+            hasActiveFilters:
+                !provider && !studio && !genre && hasActiveFilters.value,
         });
+    };
 
     onMounted(async () => {
         await loadGenres();
@@ -38,11 +52,13 @@ export function useMoviePage() {
     });
 
     watch(
-        () => route.query.query,
+        () => route.query,
         async () => {
-            page.value = 1;
+            page.value = Number(route.query.page) || 1;
+            searchQuery.value = (route.query.query as string) || '';
             await refreshMovies();
         },
+        { deep: true },
     );
 
     return {

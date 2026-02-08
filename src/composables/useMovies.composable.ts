@@ -3,8 +3,19 @@ import type { Movie } from '@/types/movie.types';
 import type { MovieFilters } from '@/components/MovieFilters.component.vue';
 import { useMoviesApi } from '@/services/useMoviesApi.composable';
 
+enum CatalogSourceType {
+    PROVIDER = 'PROVIDER',
+    STUDIO = 'STUDIO',
+}
+
 export function useMovies() {
-    const { getPopularMovies, searchMovies, discoverMovies } = useMoviesApi();
+    const {
+        getPopularMovies,
+        searchMovies,
+        discoverMovies,
+        getMoviesByCatalogSource,
+        getMoviesByGenre,
+    } = useMoviesApi();
 
     const movies = ref<Movie[]>([]);
     const loading = ref(false);
@@ -13,6 +24,9 @@ export function useMovies() {
     const loadMovies = async (options: {
         page: number;
         query?: string;
+        provider?: string;
+        studio?: number;
+        genre?: number;
         filters?: MovieFilters;
         hasActiveFilters: boolean;
     }) => {
@@ -23,6 +37,20 @@ export function useMovies() {
 
             if (options.query) {
                 res = await searchMovies(options.query, options.page);
+            } else if (options.provider) {
+                res = await getMoviesByCatalogSource(
+                    CatalogSourceType.PROVIDER,
+                    Number(options.provider),
+                    options.page,
+                );
+            } else if (options.studio) {
+                res = await getMoviesByCatalogSource(
+                    CatalogSourceType.STUDIO,
+                    options.studio,
+                    options.page,
+                );
+            } else if (options.genre) {
+                res = await getMoviesByGenre(options.genre, options.page);
             } else if (options.hasActiveFilters && options.filters) {
                 res = await discoverMovies({
                     genres: options.filters.genres,
@@ -47,10 +75,8 @@ export function useMovies() {
 
     const loadPopularForHero = async (limit: number) => {
         loading.value = true;
-
         try {
             const res = await getPopularMovies(1);
-
             movies.value = res.results
                 .filter((m) => m.poster_path)
                 .slice(0, limit);
@@ -65,6 +91,5 @@ export function useMovies() {
         totalPages,
         loadMovies,
         loadPopularForHero,
-        getPopularMovies,
     };
 }

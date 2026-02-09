@@ -13,11 +13,11 @@ const {
 } = useMoviesApi();
 </script>
 <template>
-    <div class="w-full">
+    <div class="w-full bg-surface-black">
         <HeroCarousel />
 
         <div
-            class="relative z-10 max-w-[1400px] mx-auto md:px-0 px-4 pt-2 pb-6"
+            class="relative z-10 mx-auto max-w-[1400px] px-4 pt-2 pb-6 md:px-0"
         >
             <StreamingPlatforms />
             <GenresList />

@@ -44,13 +44,24 @@ const select = (value: string) => {
 
 <template>
     <div ref="root" class="relative w-full">
-        <!-- Trigger -->
+        <!-- TRIGGER -->
         <button
-            class="w-full flex items-center justify-between gap-2 rounded-lg bg-neutral-800 border border-white/10 px-4 py-2 text-sm text-white hover:bg-neutral-700 transition"
+            :class="[
+                'w-full flex items-center justify-between gap-2',
+                'rounded-lg px-4 py-2 text-sm',
+                'bg-surface-raised text-white',
+                'border border-white/10',
+                'transition',
+                'hover:bg-surface-raised-hover hover:border-white/20',
+                'focus:outline-none focus-visible:ring-1 focus-visible:ring-white/30',
+            ]"
             type="button"
             @click="open = !open"
         >
-            <span class="truncate">{{ selectedLabel }}</span>
+            <span class="truncate">
+                {{ selectedLabel }}
+            </span>
+
             <span
                 :class="open && 'rotate-180'"
                 class="text-white/60 transition-transform"
@@ -59,16 +70,21 @@ const select = (value: string) => {
             </span>
         </button>
 
-        <!-- Menu -->
+        <!-- MENU -->
         <div
             v-if="open"
-            class="absolute z-50 mt-2 w-full rounded-lg bg-neutral-900 border border-white/10 shadow-xl overflow-hidden"
+            class="absolute z-50 mt-2 w-full rounded-lg overflow-hidden bg-overlay-heavy border border-white/10 shadow-xl"
         >
             <button
                 v-for="opt in options"
                 :key="opt.value"
-                :class="opt.value === modelValue && 'bg-neutral-800'"
-                class="w-full text-left px-4 py-2 text-sm text-white transition hover:bg-neutral-800"
+                :class="[
+                    'w-full text-left px-4 py-2 text-sm',
+                    'transition cursor-pointer',
+                    opt.value === modelValue
+                        ? 'bg-primary-600 text-white'
+                        : 'text-white/80 hover:bg-white/10',
+                ]"
                 type="button"
                 @click="select(opt.value)"
             >

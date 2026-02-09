@@ -30,15 +30,9 @@ const emit = defineEmits<{
     (e: 'keydown', event: KeyboardEvent): void;
 }>();
 
-/* -----------------------------
-   Base
--------------------------------- */
 const baseClasses =
     'w-full rounded-full border text-white outline-none transition disabled:opacity-50 disabled:cursor-not-allowed';
 
-/* -----------------------------
-   Variant (KEY PART)
--------------------------------- */
 const variantClasses = computed(() => {
     if (props.variant === 'header') {
         return `
@@ -51,7 +45,6 @@ const variantClasses = computed(() => {
         `;
     }
 
-    // default (pages, filters, search page)
     return `
         h-11
         bg-white/10
@@ -62,9 +55,6 @@ const variantClasses = computed(() => {
     `;
 });
 
-/* -----------------------------
-   Padding
--------------------------------- */
 const paddingClasses = computed(() => {
     if (props.icon) {
         return props.variant === 'header' ? 'pl-9 pr-3' : 'pl-12 pr-5';

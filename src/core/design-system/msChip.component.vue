@@ -15,9 +15,8 @@ const props = withDefaults(
     },
 );
 
-const emit = defineEmits<{
-    (e: 'update:modelValue', value: (string | number)[]): void;
-}>();
+const emit =
+    defineEmits<(e: 'update:modelValue', value: (string | number)[]) => void>();
 
 const toggle = (value: string | number) => {
     if (props.multiple) {
@@ -44,10 +43,13 @@ const isActive = (value: string | number) => props.modelValue.includes(value);
             v-for="opt in options"
             :key="opt.value"
             :class="[
-                'rounded-full px-4 py-1.5 text-sm transition border cursor-pointer text-white',
+                'rounded-full px-4 py-1.5 text-sm font-medium transition-all duration-150',
+                'cursor-pointer select-none',
+                'focus:outline-none focus-visible:ring-1 focus-visible:ring-white/30',
+
                 isActive(opt.value)
-                    ? 'bg-[var(--primary)] border-[var(--primary)]'
-                    : 'border-white/30 hover:border-white',
+                    ? 'bg-primary-600 text-white border border-primary-600 hover:bg-primary-700'
+                    : 'bg-surface-raised text-white/80 border border-white/20 hover:bg-surface-raised-hover hover:border-white/40',
             ]"
             type="button"
             @click="toggle(opt.value)"

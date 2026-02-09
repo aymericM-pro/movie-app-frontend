@@ -19,27 +19,27 @@ const setMode = (mode: ViewMode) => {
 </script>
 
 <template>
-    <div class="relative flex h-12 w-[210px] rounded-lg bg-white/5 p-1">
-        <!-- SLIDER -->
+    <div class="relative flex h-11 w-[210px] rounded-xl bg-surface-raised p-1">
+        <!-- slider -->
         <div
             :class="{ 'translate-x-full': !isCards }"
-            class="absolute left-1 top-1 h-10 w-[calc(50%-4px)] rounded-sm bg-red-600 transition-transform duration-300 ease-out"
+            class="absolute top-1 left-1 h-9 w-[calc(50%-4px)] rounded-lg bg-primary-600 transition-transform duration-300"
         />
 
-        <!-- CARDS -->
+        <!-- cards -->
         <button
-            :class="isCards ? 'text-white' : 'text-white/60'"
-            class="relative z-10 flex flex-1 items-center justify-center gap-2 text-sm font-medium focus:outline-none focus-visible:outline-none"
+            :class="isCards ? 'text-white' : 'text-white/60 hover:text-white'"
+            class="relative z-10 flex flex-1 items-center justify-center gap-2 text-sm font-medium transition"
             @click="setMode('cards')"
         >
             <span class="mdi mdi-view-grid text-lg" />
             {{ $t('common.cards') }}
         </button>
 
-        <!-- LIST -->
+        <!-- list -->
         <button
-            :class="!isCards ? 'text-white' : 'text-white/60'"
-            class="relative z-10 flex flex-1 items-center justify-center gap-2 text-sm font-medium focus:outline-none focus-visible:outline-none"
+            :class="!isCards ? 'text-white' : 'text-white/60 hover:text-white'"
+            class="relative z-10 flex flex-1 items-center justify-center gap-2 text-sm font-medium transition"
             @click="setMode('list')"
         >
             <span class="mdi mdi-view-list text-lg" />

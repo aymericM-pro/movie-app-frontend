@@ -1,12 +1,18 @@
 <script lang="ts" setup>
-defineProps<{
+import { computed } from 'vue';
+
+const props = defineProps<{
     translucent?: boolean;
 }>();
+
+const headerBgClass = computed(() =>
+    props.translucent ? 'bg-overlay-dark' : 'bg-overlay-heavy',
+);
 </script>
 
 <template>
     <header
-        :class="translucent ? 'bg-black/30' : 'bg-black/80'"
+        :class="headerBgClass"
         class="sticky top-0 z-50 border-b border-white/10 backdrop-blur transition-colors"
     >
         <div

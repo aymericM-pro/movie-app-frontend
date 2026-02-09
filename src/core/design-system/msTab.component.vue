@@ -16,33 +16,34 @@ if (!modelValue || !update || !variant) {
 }
 
 const isActive = computed(() => modelValue.value === props.value);
+
+const buttonVariant = computed(() => {
+    if (variant === 'segmented') {
+        return isActive.value ? 'primary' : 'secondary';
+    }
+
+    return 'ghost';
+});
 </script>
 
 <template>
-    <ms-button
-        :class="[
-            'relative transition',
-            variant === 'navigation'
-                ? 'rounded-none px-6 py-4'
-                : 'rounded-lg px-4 py-2',
-            isActive
-                ? variant === 'navigation'
-                    ? 'text-white'
-                    : 'bg-gradient-to-r from-blue-500 to-purple-500 text-white'
-                : 'text-white/60 hover:text-white',
-        ]"
+    <msButton
+        :class="
+            variant === 'navigation' ? 'rounded-none px-6 py-4' : 'px-4 py-2'
+        "
         :disabled="disabled"
+        :variant="buttonVariant"
+        class="relative"
         role="tab"
         size="md"
-        variant="ghost"
         @click="update(value)"
     >
         <slot />
 
-        <!-- underline uniquement pour navigation -->
+        <!-- underline navigation -->
         <span
             v-if="isActive && variant === 'navigation'"
-            class="absolute inset-x-0 bottom-0 h-0.5 bg-red-500"
+            class="absolute inset-x-0 bottom-0 h-0.5 bg-primary-600"
         />
-    </ms-button>
+    </msButton>
 </template>

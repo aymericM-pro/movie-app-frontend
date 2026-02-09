@@ -1,7 +1,7 @@
 <script lang="ts" setup>
 import { computed } from 'vue';
 
-type Variant = 'primary' | 'secondary' | 'ghost';
+type Variant = 'primary' | 'secondary' | 'ghost' | 'pagination';
 type Size = 'sm' | 'md' | 'lg';
 
 const props = withDefaults(
@@ -19,16 +19,52 @@ const props = withDefaults(
 );
 
 const baseClasses =
-    'inline-flex items-center justify-center gap-2 font-semibold rounded-md transition focus:outline-none';
+    'inline-flex items-center justify-center gap-2 ' +
+    'rounded-md font-semibold ' +
+    'transition-all duration-150 ' +
+    'focus:outline-none focus-visible:ring-1 focus-visible:ring-white/30';
 
 const variantClasses = computed(() => {
+    if (props.disabled) {
+        return 'bg-surface-raised text-white/40';
+    }
+
     switch (props.variant) {
         case 'secondary':
-            return 'bg-[#2f3542] text-white hover:bg-[#3b4150]';
+            return `
+                bg-surface-raised
+                text-white
+                border border-white/10
+                hover:bg-surface-raised-hover
+                hover:border-white/20
+            `;
+
+        case 'pagination':
+            return `
+                bg-surface-elevated
+                text-white/80
+                border border-white/10
+                hover:text-white
+                hover:bg-surface-raised
+                hover:border-white/20
+            `;
+
         case 'ghost':
-            return 'bg-transparent text-white/70 hover:text-white hover:bg-white/10';
+            return `
+                bg-transparent
+                text-white/60
+                hover:text-white
+                hover:bg-white/10
+            `;
+
         default:
-            return 'bg-red-600 text-white hover:bg-red-700';
+            return `
+                bg-primary-600
+                text-white
+                shadow-md
+                hover:bg-primary-700
+                hover:shadow-lg
+            `;
     }
 });
 
@@ -50,7 +86,9 @@ const sizeClasses = computed(() => {
             baseClasses,
             variantClasses,
             sizeClasses,
-            disabled && 'opacity-40 cursor-not-allowed',
+            disabled
+                ? 'cursor-not-allowed pointer-events-none'
+                : 'cursor-pointer',
         ]"
         :disabled="disabled"
     >

@@ -55,6 +55,7 @@ const singleValue = computed<number>({
 
 <template>
     <div class="space-y-3">
+        <!-- label -->
         <p v-if="label" class="text-sm font-semibold text-white">
             {{ label }}
         </p>
@@ -66,13 +67,13 @@ const singleValue = computed<number>({
                 class="absolute top-1/2 h-1 w-full -translate-y-1/2 rounded bg-white/20"
             />
 
-            <!-- active -->
+            <!-- active range -->
             <div
                 :style="{ left: `${left}%`, width: `${right - left}%` }"
-                class="absolute top-1/2 h-1 -translate-y-1/2 rounded bg-[var(--primary)]"
+                class="absolute top-1/2 h-1 -translate-y-1/2 rounded bg-primary-600"
             />
 
-            <!-- min -->
+            <!-- min thumb -->
             <input
                 :max="max"
                 :min="min"
@@ -83,7 +84,7 @@ const singleValue = computed<number>({
                 @input="updateMin(+($event.target as HTMLInputElement).value)"
             />
 
-            <!-- max -->
+            <!-- max thumb -->
             <input
                 :max="max"
                 :min="min"
@@ -97,14 +98,17 @@ const singleValue = computed<number>({
 
         <!-- ================= SINGLE MODE ================= -->
         <div v-else class="relative h-6">
+            <!-- rail -->
             <div
                 class="absolute top-1/2 h-1 w-full -translate-y-1/2 rounded bg-white/20"
             />
+
+            <!-- active -->
             <div
                 :style="{
                     width: ((singleValue - min) / (max - min)) * 100 + '%',
                 }"
-                class="absolute top-1/2 h-1 -translate-y-1/2 rounded bg-[var(--primary)]"
+                class="absolute top-1/2 h-1 -translate-y-1/2 rounded bg-primary-600"
             />
 
             <input
@@ -138,7 +142,16 @@ const singleValue = computed<number>({
     width: 14px;
     height: 14px;
     border-radius: 9999px;
-    background: var(--primary);
+    background-color: theme('colors.primary.600');
+    cursor: pointer;
+}
+
+.range-input::-moz-range-thumb {
+    pointer-events: auto;
+    width: 14px;
+    height: 14px;
+    border-radius: 9999px;
+    background-color: theme('colors.primary.600');
     cursor: pointer;
 }
 </style>

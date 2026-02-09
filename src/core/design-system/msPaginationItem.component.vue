@@ -17,15 +17,10 @@ const isDisabled = computed(() => props.page < 1 || props.page > total);
 
 <template>
     <msButton
-        :class="[
-            'min-w-[40px]',
-            isActive
-                ? 'bg-red-600 text-white'
-                : 'bg-neutral-800 text-white/70 hover:text-white',
-        ]"
         :disabled="isDisabled"
+        :variant="isActive ? 'primary' : 'pagination'"
+        class="min-w-[40px]"
         size="sm"
-        variant="ghost"
         @click="update(page)"
     >
         {{ label ?? page }}

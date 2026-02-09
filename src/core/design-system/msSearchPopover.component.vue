@@ -32,7 +32,7 @@ onUnmounted(() => {
         <!-- POPOVER -->
         <div
             v-if="open"
-            class="absolute left-0 right-0 mt-2 rounded-2xl bg-black/95 backdrop-blur-xl shadow-2xl border border-white/10 overflow-hidden z-50"
+            class="absolute left-0 right-0 mt-2 z-50 rounded-2xl bg-black/80 backdrop-blur-md shadow-2xl border border-white/10 overflow-hidden text-white"
         >
             <slot name="content" />
         </div>

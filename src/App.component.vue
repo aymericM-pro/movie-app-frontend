@@ -1,10 +1,13 @@
 <script lang="ts" setup>
+import { RouterView } from 'vue-router';
+
 import msHeader from '@/core/design-system/msHeader.component.vue';
 import msNav from '@/core/design-system/msNav.component.vue';
 import msLink from '@/core/design-system/msLink.component.vue';
 import msButton from '@/core/design-system/msButton.component.vue';
 import msInput from '@/core/design-system/msInput.component.vue';
 import msSearchPopover from '@/core/design-system/msSearchPopover.component.vue';
+
 import { AppRoute } from '@/router';
 import { getHeroImageUrl } from '@/core/utils/image.utils';
 import { useAppLayout } from '@/composables/useAppLayout.component';
@@ -29,10 +32,15 @@ const {
 </script>
 
 <template>
-    <div class="min-h-screen bg-black">
-        <msHeader :translucent="route.path === '/home'">
+    <div class="min-h-screen bg-black text-on-surface">
+        <!-- HEADER -->
+        <msHeader
+            :translucent="route.path === AppRoute.HOME"
+            class="text-on-surface"
+        >
+            <!-- BRAND -->
             <template #brand>
-                <div class="flex items-center gap-2 text-white">
+                <div class="flex items-center gap-2 text-on-surface">
                     <span class="text-xl">🎬</span>
                     <span class="text-lg font-semibold tracking-tight">
                         {{ t('navigation.moviesDatabase') }}
@@ -40,8 +48,9 @@ const {
                 </div>
             </template>
 
+            <!-- NAVIGATION -->
             <template #nav>
-                <msNav>
+                <msNav class="text-on-surface">
                     <msLink :label="t('common.home')" :to="AppRoute.HOME" />
                     <msLink :label="t('common.movies')" :to="AppRoute.MOVIES" />
                     <msLink
@@ -53,21 +62,20 @@ const {
                         :label="t('common.library')"
                         :to="AppRoute.USER_LIBRARY"
                     />
-
                     <msLink :to="AppRoute.SHOWS" label="shows" />
                 </msNav>
             </template>
 
             <!-- ACTIONS -->
             <template #actions>
-                <div class="flex items-center gap-3">
+                <div class="flex items-center gap-3 text-on-surface">
                     <!-- SEARCH -->
                     <div class="hidden md:block w-[300px]">
                         <msSearchPopover
                             :open="showResults"
                             @close="closeResults"
                         >
-                            <!-- INPUT -->
+                            <!-- TRIGGER -->
                             <template #trigger>
                                 <msInput
                                     v-model="searchQuery"
@@ -77,20 +85,22 @@ const {
                                 />
                             </template>
 
-                            <!-- RESULTS -->
+                            <!-- CONTENT -->
                             <template #content>
+                                <!-- LOADING -->
                                 <div
                                     v-if="searchLoading"
-                                    class="p-4 text-white/50 text-sm"
+                                    class="p-4 text-sm text-white/70"
                                 >
                                     {{ t('common.loading') }}
                                 </div>
 
-                                <div v-else>
+                                <!-- RESULTS -->
+                                <div v-else class="text-white">
                                     <button
                                         v-for="item in searchResults"
                                         :key="item.id"
-                                        class="flex gap-3 w-full p-3 hover:bg-white/5 transition text-left"
+                                        class="flex w-full gap-3 p-3 text-left cursor-pointer transition-all duration-150 hover:bg-white/10 focus-visible:bg-white/10 focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-white/20"
                                         @click="goToItem(item)"
                                     >
                                         <img
@@ -102,18 +112,20 @@ const {
                                                 )
                                             "
                                             alt="Poster"
-                                            class="w-10 h-14 rounded object-cover"
+                                            class="h-14 w-10 rounded object-cover"
                                         />
 
                                         <div class="min-w-0">
+                                            <!-- TITLE -->
                                             <p
-                                                class="text-sm font-medium text-white truncate"
+                                                class="truncate text-sm font-medium text-white"
                                             >
                                                 {{ item.title }}
                                             </p>
 
+                                            <!-- META -->
                                             <p
-                                                class="text-xs text-white/60 flex items-center gap-2"
+                                                class="mt-0.5 flex items-center gap-2 text-xs text-white/70"
                                             >
                                                 <span>
                                                     {{
@@ -143,8 +155,9 @@ const {
                                         </div>
                                     </button>
 
+                                    <!-- SEE ALL -->
                                     <button
-                                        class="w-full p-3 text-center text-sm text-white/70 hover:text-white border-t border-white/10"
+                                        class="w-full border-t border-white/10 p-3 text-center text-sm text-white/80 transition hover:text-white"
                                         @click="goToSearch"
                                     >
                                         Voir tous les résultats
@@ -187,7 +200,8 @@ const {
             </template>
         </msHeader>
 
-        <main class="w-full">
+        <!-- MAIN -->
+        <main class="relative z-10 w-full">
             <RouterView />
         </main>
     </div>

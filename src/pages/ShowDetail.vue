@@ -10,6 +10,7 @@ import TvSeasonsSection from '@/module/shows/components/tabs/TvSeasonsSection.co
 import TvCastSection from '@/module/shows/components/tabs/TvCastSection.component.vue';
 import TvVideosSection from '@/module/shows/components/tabs/TvVideosSection.component.vue';
 import TvImagesSection from '@/module/shows/components/tabs/TvImagesSection.component.vue';
+import TvCommentsSection from '@/module/shows/components/tabs/TvCommentsSection.component.vue';
 
 const route = useRoute();
 const store = useTvDetailsStore();
@@ -105,15 +106,9 @@ watch(tvId, (id) => {
                             v-if="activeTab === 'images' && store.images"
                         />
 
-                        <section
+                        <TvCommentsSection
                             v-if="activeTab === 'comments'"
-                            class="rounded-xl bg-neutral-900/60 p-6"
-                        >
-                            <p class="text-white/60">
-                                Les commentaires seront disponibles
-                                prochainement.
-                            </p>
-                        </section>
+                        />
                     </section>
                 </div>
             </div>

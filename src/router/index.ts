@@ -10,6 +10,8 @@ export enum AppRoute {
     USER_LIBRARY = 'user-library',
     LOGIN = 'login',
     REGISTER = 'register',
+    SHOWS = 'shows',
+    SHOW_DETAIL = 'show-detail',
 }
 
 const router = createRouter({
@@ -63,7 +65,16 @@ const router = createRouter({
             component: () => import('@/pages/UserMoviesPage.vue'),
             meta: { auth: true },
         },
-
+        {
+            path: '/shows',
+            name: AppRoute.SHOWS,
+            component: () => import('@/pages/ShowsList.vue'),
+        },
+        {
+            path: '/show/:id',
+            name: AppRoute.SHOW_DETAIL,
+            component: () => import('@/pages/ShowDetail.vue'),
+        },
         {
             path: '/:pathMatch(.*)*',
             redirect: '/login',

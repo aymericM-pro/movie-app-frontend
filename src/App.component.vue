@@ -31,7 +31,6 @@ const {
 <template>
     <div class="min-h-screen bg-black">
         <msHeader :translucent="route.path === '/home'">
-            <!-- BRAND -->
             <template #brand>
                 <div class="flex items-center gap-2 text-white">
                     <span class="text-xl">🎬</span>
@@ -41,7 +40,6 @@ const {
                 </div>
             </template>
 
-            <!-- NAV -->
             <template #nav>
                 <msNav>
                     <msLink :label="t('common.home')" :to="AppRoute.HOME" />
@@ -55,6 +53,8 @@ const {
                         :label="t('common.library')"
                         :to="AppRoute.USER_LIBRARY"
                     />
+
+                    <msLink :to="AppRoute.SHOWS" label="shows" />
                 </msNav>
             </template>
 
